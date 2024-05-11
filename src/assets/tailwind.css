@@ -1,0 +1,40 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+@font-face {
+    font-family: "Roboto Flex";
+    src: url(../fonts/RobotoFlex.ttf) format('truetype'),
+    url(../fonts/RobotoFlex.woff2) format('woff2');
+    font-variation-settings:
+      "slnt" 0,
+      "wdth" 95.5,
+      "GRAD" 0,
+      "XOPQ" 96,
+      "XTRA" 468,
+      "YOPQ" 79,
+      "YTAS" 750,
+      "YTDE" -203,
+      "YTFI" 738,
+      "YTLC" 514,
+      "YTUC" 712;
+}
+@font-face {
+    font-family: "Roboto Flex Italic";
+    src: url(../fonts/RobotoFlex.ttf) format('truetype'),
+    url(../fonts/RobotoFlex.woff2) format('woff2');
+    font-variation-settings:
+      "slnt" 10,
+      "wdth" 95.5,
+      "GRAD" 0,
+      "XOPQ" 96,
+      "XTRA" 468,
+      "YOPQ" 79,
+      "YTAS" 750,
+      "YTDE" -203,
+      "YTFI" 738,
+      "YTLC" 514,
+      "YTUC" 712;
+}

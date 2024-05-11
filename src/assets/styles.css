@@ -1,0 +1,304 @@
+html{
+    font-size: 16px;
+}  
+body {
+    overflow-x: hidden;
+    background-color: #00092E;
+}
+a{
+    cursor:  pointer;
+}
+h1,h2,h3,h4,h5,h6,p,small,strong,
+q,em,mark,ins,del,sup,sub,i,b,a,
+button {
+    color: white;
+    font-family: 'Roboto Flex', sans-serif;
+}
+body,html,.wrapper{
+    min-height: 100%;
+}
+span{
+    @apply pointer-events-none select-none
+}
+.italic-text{
+    transform: skewX(-10deg);
+    display: block;
+}
+.wrapper{
+    @apply flex flex-col
+}
+.logo {
+    @apply flex;
+    @apply items-center;
+    font-weight: 900;
+    gap: .5rem;
+}
+.logo__title{
+      max-width: 5rem;
+      @apply text-left;
+} 
+#background{
+    @apply -z-10 inset-0 absolute w-full h-full
+}
+
+#load-element:nth-child(1){
+    height: 0.75rem;
+    width: .75rem;
+    background: whitesmoke;
+    animation: preloader ease-in-out 2s infinite;
+    border-radius: 10rem;
+    position: relative;
+}
+#load-element:nth-child(2){
+    height: 0.75rem;
+    width: .75rem;
+    background: whitesmoke;
+    animation: preloader ease-in-out 2s infinite;
+    animation-delay:0.2s;
+    border-radius: 10rem;
+    position: relative;
+}
+#load-element:nth-child(3){
+    height: 0.75rem;
+    width: .75rem;
+    background: whitesmoke;
+    animation: preloader ease-in-out 2s infinite;
+    animation-delay:0.4s;
+    border-radius: 10rem;
+    position: relative;
+}
+#load-element:nth-child(4){
+    height: 0.75rem;
+    width: .75rem;
+    background: whitesmoke;
+    animation: preloader ease-in-out 2s infinite;
+    animation-delay:0.6s;
+    border-radius: 10rem;
+    position: relative;
+}
+.position-fit{
+    @apply bottom-0 w-full h-auto;
+}
+
+.glow{
+    animation: glow 6s ease-out infinite;
+}
+.beacons-light{
+    animation: beacons 1.5s steps(2) infinite;
+}
+html,body{
+    height: 100%;
+    transition: all .75 ease-in-out
+}
+body{
+    position: relative;
+    overflow-x: hidden;
+    width: 100%;
+}
+.wrapper{
+    @apply flex flex-col;
+    min-height: 100%;
+}
+main{
+    flex: 1 0 auto
+}
+.background{
+    z-index: -1;
+    top: 0;
+    width: 100%;
+    height: 1080px;
+    background: url(@/assets/img/optimize/bg_howtostart.webp) no-repeat fixed, #00092E;
+    background-position: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    position: absolute;
+}
+
+footer::before{
+    content: " ";
+    @apply absolute bg-BASE_BACKGROUND z-[-1] w-full h-full left-0; 
+}
+.nav__link{
+    @apply font-black uppercase opacity-70 hover:opacity-100 text-white transition-opacity max-md:text-base
+}
+/* Fades */
+.fade-enter-from{
+    opacity: 0;
+}
+.fade-enter-to{
+    opacity: 1;
+}
+.fade-enter-active{
+    transition: opacity .1s ease-in-out;
+}
+.fade-leave-from{
+    opacity: 1;
+}
+.fade-leave-to{
+    opacity: 0;
+}
+.fade-leave-active{
+    transition: opacity 1s ease-in-out;
+}
+
+.smooth-enter-from{
+    opacity: 0;
+}
+.smooth-enter-to{
+    opacity: 1;
+}
+.smooth-enter-active{
+    transition: opacity .625s ease-in-out;
+}
+.smooth-leave-from{
+    opacity: 1;
+}
+.smooth-leave-to{
+    opacity: 0;
+}
+.smooth-leave-active{
+    transition: opacity .625s ease-in-out;
+}
+
+.fadeLong-enter-from{
+    opacity: 0;
+}
+.fadeLong-enter-to{
+    opacity: 1;
+}
+.fadeLong-enter-active{
+    transition: opacity .75s ease-in-out;
+}
+.fadeLong-leave-from{
+    opacity: 1;
+}
+.fadeLong-leave-to{
+    opacity: 0;
+}
+.fadeLong-leave-active{
+    transition: opacity .25s ease-in-out;
+}
+
+.grow-enter-from{
+    height: 0px;
+}
+.grow-enter-to{
+    height: 200px;
+}
+.grow-enter-active{
+    transition: all .2s ease-in-out;
+}
+.grow-leave-from{
+    height: 200px;
+}
+.grow-leave-to{
+    height: 0px;
+}
+.grow-leave-active{
+    transition: all .2s ease-in-out;
+}
+
+/* scrollbar customize */
+html::-webkit-scrollbar {
+    scrollbar-width: thin;
+  }
+html::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+ @apply bg-white bg-opacity-5 rounded-xl;
+scrollbar-width: thin;
+}
+html::-webkit-scrollbar-thumb:hover {
+    @apply bg-white bg-opacity-20 transition-all;
+}
+@keyframes preloader {
+    0%,100%{
+        opacity: 1;
+        right: 0;
+        transform: translateY(0);
+    }
+    25%,75%{
+        transform: translateY(80%);
+        opacity: 0.7;
+    }
+    30%,80%{
+    }
+    50%{
+        opacity: 1;
+        
+    }
+}
+@keyframes glow {
+    0%,100%{
+        opacity: .4;
+    }
+    50%{
+        opacity: .8;
+        
+    }
+}
+@keyframes beacons {
+    0%,100%{
+        transform: rotateY(180deg);
+    }
+    50%{
+        transform: rotateY(-180deg);
+        
+    }
+}
+@keyframes flicker {
+    0% {
+      opacity: 0.3;
+    }
+  
+    1% {
+      opacity: 1;
+    }
+  
+    5% {
+      opacity: 0.3;
+    }
+  
+    9% {
+      opacity: 1;
+    }
+  
+    12% {
+      opacity: 0.3;
+    }
+    20% {
+      opacity: 1;
+    }
+    25% {
+      opacity: 0.5;
+    }
+    30% {
+      opacity: 1;
+    }
+  
+    70% {
+      opacity: 0.7;
+    }
+    72% {
+      opacity: 0.2;
+    }
+  
+    77% {
+      opacity: 0.9;
+    }
+    100% {
+      opacity: 0.9;
+    }
+  }
+  @media screen and (min-width:1953px) {
+    html{
+        font-size: 20px;
+    }
+    .background {
+        height: 1400px
+    }
+  }

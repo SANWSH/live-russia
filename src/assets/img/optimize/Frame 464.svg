@@ -1,0 +1,8 @@
+<svg viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:anim="http://www.w3.org/2000/anim" anim="" anim:transform-origin="50% 50%" anim:duration="1" anim:ease="ease-in-out">
+  <g id="Frame 464">
+    <rect id="Rectangle 92" x="2" y="4" width="29" height="3" rx="1.5" fill="white" anim:opacity="0[0.3:0.4:1:ease-in-out]" anim:y="0[0:0.3:12:ease-in-out]" anim:rotation="0[0.5:0.8:-45:ease-in-out]"></rect>
+    <rect id="Rectangle 95" x="2" y="10" width="29" height="3" rx="1.5" fill="white" anim:y="0[0:0.3:6:ease-in-out]" anim:rotation="0[0.5:0.8:45:ease-in-out]"></rect>
+    <rect id="Rectangle 93" x="9" y="16" width="22" height="3" rx="1.5" fill="white" anim:opacity="1[0.4:0.5:0:ease-in-out]" anim:x="0[0.2:0.4:-3:ease-in-out]"></rect>
+    <rect id="Rectangle 94" x="17" y="22" width="14" height="3" rx="1.5" fill="white" anim:opacity="1[0.3:0.4:0:ease-in-out]" anim:y="0[0:0.3:-6:ease-in-out]"></rect>
+  </g>
+</svg>
