@@ -36,7 +36,8 @@ module.exports = {
         80: '80',
         90: '90',
         100: '100',
-        upper: '10000'
+        upper: '10000',
+        preloader: '10010'
       },
       spacing: {
         '8xl': '95rem',
@@ -54,9 +55,28 @@ module.exports = {
         md: '17.45rem',
         sm: '15.25rem',
         video: '18.2rem',
-        view: 'calc((912 / 16) * 1rem)'
+        view: 'calc((912 / 16) * 1rem)',
+        content: 'calc(100vh-208px)'
+      },
+      lineHeight: {
+        none: '1',
+        tight: '1.25',
+        snug: '1.5',
+        normal: '1.75',
+        relaxed: '2',
+        loose: '2.5',
+        custom: '1.8'
       },
       fontSize: {
+        xs: '0.75rem',
+        sm: '0.875rem',
+        base: '1rem',
+        lg: '1.125rem',
+        xl: '1.25rem',
+        '2xl': '1.5rem',
+        '3xl': '1.875rem',
+        '4xl': '2.25rem',
+        '5xl': '3rem',
         100: '1em /*16px*/',
         120: '1.25em /*20px*/',
         150: '1.5em /*24px*/',
@@ -70,8 +90,7 @@ module.exports = {
         370: '3.75em /*60px*/'
       },
       fontFamily: {
-        roboto: ['Roboto Flex'],
-        'roboto-italic': ['Roboto Flex Italic']
+        roboto: ['Roboto']
       },
       colors: {
         BASE_BACKGROUND: '#00092E',

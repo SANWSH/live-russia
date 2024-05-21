@@ -4,9 +4,16 @@
   <div
   v-if="Type!='dropdown'"
   class="form__input-wrapper form-element flex gap-2">
-    <img :src="icon !== '!icon' ? require(`@/assets/img/icons/${icon}.svg`) : '' " alt="">
-    <input :type="Type" :placeholder="Placeholder"
-    @focus="onFocus" @focusout="onFocusOut " :name="Name" :pattern="Pattern" class="w-full">
+    <img v-if="isIconExsists" :src="icon ? require(`@/assets/img/icons/${icon}.svg`) : isIconExsists = false " alt="input-icon" class="w-full">
+    <input
+    :type="Type"
+    :value="val"
+    @input="$emit('update:val', $event.target.value)"
+    @blur="$emit('blurField', $event.target.value)"
+    :placeholder="Placeholder"
+    @focus="onFocus" @focusout="onFocusOut "
+    :name="Name"
+    class="w-full">
   </div>
 
   <!-- dropdown input -->
@@ -16,13 +23,19 @@
   v-click-outside="onClickOutside"
   :name="Name"
   @click="setFocus"
-  @input="$emit('input-event', $event)">
-    <img :src="require(`@/assets/img/icons/${icon}.svg`)" alt="input-icon">
-    <input type="text" disabled :placeholder="Placeholder" :value="selectedItem">
+  >
+
+    <img :src="require(`@/assets/img/icons/${icon}.svg`)" alt="input-icon" class="w-full">
+    <input
+    type="text"
+    disabled
+    :placeholder="Placeholder"
+    @blur="$emit('blurField', $event.target.value)"
+    :value="selectedItem">
       <ul
       v-if="isFocused"
       ref="list"
-      class="form__dropdown-list form-element absolute top-[48px] left-0 right-0 z-20 ">
+      class="form__dropdown-list form-element absolute top-12 left-0 right-0 z-20 ">
         <li v-for="item in Items" :key="item" @click="setDropdownValue">{{ item.title }}</li>
       </ul>
   </div>
@@ -37,7 +50,7 @@ export default {
   props: {
     icon: {
       type: String,
-      default: '!icon'
+      require: false
     },
     Placeholder: String,
     Type: String,
@@ -46,12 +59,13 @@ export default {
     Pattern: {
       type: String,
       default: ''
-    }
+    },
+    val: String
   },
   directives: {
     clickOutside: vClickOutside.directive
   },
-  emits: ['input-event'],
+  emits: ['update:val', 'blurField'],
   setup (context) {
     // input logic
     const onFocus = (event) => {
@@ -60,7 +74,7 @@ export default {
     const onFocusOut = (event) => {
       event.target.parentNode.classList.remove('active');
     }
-
+    const isIconExsists = ref(true)
     // dropdown logic
     const isFocused = ref(false)
     const selectedItem = ref(null)
@@ -80,6 +94,9 @@ export default {
     function inputEvent (event) {
       context.emit('input-event', event.target.value);
     }
+    function focusEvent (event) {
+      context.emit('focus-event', event.target);
+    }
 
     return {
       onFocus,
@@ -89,7 +106,9 @@ export default {
       onClickOutside,
       setDropdownValue,
       selectedItem,
-      inputEvent
+      inputEvent,
+      focusEvent,
+      isIconExsists
     }
   }
 }
@@ -110,7 +129,7 @@ export default {
     @apply rounded-b-none border-b-0
   }
   .form__dropdown-list{
-    @apply w-80 transition-all rounded-b-lg border-t-0 bg-[--color] -mx-[1px]
+    @apply w-80 transition-all rounded-b-lg border-t-0 bg-[--color] -mx-[.0625rem]
   }
   .dropdown{
     @apply cursor-pointer
@@ -119,9 +138,10 @@ export default {
     content: "";
     position: absolute;
     right: 1rem;
-    background: url("@/assets/img/icons/dropdown.svg");
-    width: 20px;
-    height: 20px;
+    background: url("@/assets/img/icons/dropdown.svg") center;
+    background-size: contain;
+    width: 1.125rem;
+    height: 1.125rem;
     transition: transform .1s cubic-bezier(0.075, 0.82, 0.165, 1)
   }
 </style>

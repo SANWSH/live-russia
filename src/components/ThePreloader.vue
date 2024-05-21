@@ -1,6 +1,6 @@
 <template>
-  <Transition name="fade">
-    <div class="z-upper fixed backdrop-blur-md bg-blue-950 w-full h-full top-0" v-if="isVisible">
+  <Transition name="smooth">
+    <div class="z-preloader fixed backdrop-blur-md bg-blue-950 w-full h-full top-0" v-if="isVisible">
       <div class="flex relative w-full h-full">
         <div class="flex flex-col items-center m-auto gap-2">
           <img
@@ -20,16 +20,23 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 export default {
   setup () {
     const isVisible = ref(true)
-    onMounted(() => {
-      window.addEventListener('load', () => {
+    const router = useRouter()
+    router.beforeEach((to, from, next) => {
+      isVisible.value = true
+      next()
+    })
+
+    router.afterEach((to, from) => {
+      if (router.isReady()) {
         setTimeout(() => {
           isVisible.value = false
-        }, 500)
-      })
+        }, 300)
+      }
     })
     return {
       isVisible

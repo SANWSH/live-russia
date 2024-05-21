@@ -1,6 +1,6 @@
 <template>
-  <component :is="tag" class="button relative" :to="link">
-      <span class="italic-text block"> {{ title }} </span>
+  <component :is="tag" :class="`button relative italic ${styleType}`" :to="link">
+    {{ title }}
   </component>
 </template>
 
@@ -13,29 +13,68 @@ export default {
       type: String,
       default: '/'
     },
+    styleType: {
+      type: String,
+      default: 'accent p-default'
+    },
     tag: {
       type: String,
       default: 'router-link'
     }
-  },
-  setup () {
-
   }
 }
 </script>
 
-<style>
+<style scoped>
   .button {
-    @apply p-5
+    @apply
     text-center
-    font-extrabold
-    bg-BASE_BUTTON
-    text-black
     rounded-md
     uppercase
+    text-nowrap
+    font-black
+    cursor-pointer
+  }
+  .button.accent{
+    @apply
+    bg-BASE_BUTTON
+    text-black
     hover:shadow-btn-sm
     hover:shadow-BASE_BUTTON
     transition-shadow
-    text-nowrap
+  }
+  .button.accent-outline{
+    @apply
+    bg-transparent
+    text-BASE_BUTTON
+    hover:bg-BASE_BUTTON
+    hover:text-black
+    transition-all
+    border border-BASE_BUTTON border-opacity-20
+  }
+  .accent-outline.router-link-active{
+    @apply
+    bg-BASE_BUTTON
+    text-black
+    cursor-default
+  }
+  .p-default{
+    @apply p-5
+  }
+  .p-thin{
+    @apply py-[0.625rem] px-4
+  }
+  .button.default{
+    @apply
+    text-white
+    text-opacity-70
+    hover:text-opacity-100
+    transition-opacity
+  }
+  .button.default.router-link-active{
+    @apply
+    text-white
+    text-opacity-100
+    cursor-default
   }
 </style>

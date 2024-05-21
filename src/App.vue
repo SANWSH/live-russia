@@ -8,10 +8,11 @@
 </template>
 
 <script>
-import { provide, ref, computed } from 'vue';
+import { provide, ref, computed, watch } from 'vue';
 import ThePreloader from './components/ThePreloader.vue'
 import MainLayout from '@/layouts/MainLayout.vue'
 import { breakpointsTailwind, useBreakpoints, useMouse } from '@vueuse/core';
+import { useRouter } from 'vue-router';
 
 export default ({
   computed: {
@@ -23,6 +24,30 @@ export default ({
     ThePreloader, MainLayout
   },
   setup () {
+    const router = useRouter()
+    // modal
+    const isOpenModalHeader = ref(false)
+    const isOpenModalPayments = ref(false)
+    provide('modalOpenHeader', isOpenModalHeader)
+    provide('modalOpenPayments', isOpenModalPayments)
+
+    watch(() => [isOpenModalHeader, isOpenModalPayments], ([newIsOpenModalHeader, newIsOpenModalPayments]) => {
+      const isOpen = newIsOpenModalHeader || newIsOpenModalPayments
+      if (!isOpen) {
+        document.body.classList.remove('blocked')
+      }
+    },
+    {
+      immediate: true
+    })
+
+    router.beforeEach((to, from, next) => {
+      if (document.body.classList.contains('blocked')) {
+        isOpenModalHeader.value = false
+        isOpenModalPayments.value = false
+      }
+      next()
+    })
     // breakpoints
     const breakpoints = useBreakpoints(breakpointsTailwind)
     const scrSmall = breakpoints.smallerOrEqual('sm')
@@ -38,31 +63,51 @@ export default ({
     provide('scr2XL', scr2XL)
 
     // payments options
-    // ~ This is a static array used as a placeholder. It should be replaced with a function that fetches payment options from the server.
     const payments = [
       {
-        to: '/payments',
-        icon: '@/assets/img/icons/payments_sbp.svg'
+        isInternational: false,
+        to: 'card',
+        icon: require('@/assets/img/icons/pay/payments_debit.svg')
       },
       {
-        to: '/payments',
-        icon: '@/assets/img/icons/payments_sbp.svg'
+        isInternational: false,
+        to: 'tinkoff',
+        icon: require('@/assets/img/icons/pay/payments_tinkoff.svg')
       },
       {
-        to: '/payments',
-        icon: '@/assets/img/icons/payments_sbp.svg'
+        isInternational: true,
+        to: 'card',
+        icon: require('@/assets/img/icons/pay/payments_debit.svg')
       },
       {
-        to: '/payments',
-        icon: '@/assets/img/icons/payments_sbp.svg'
+        isInternational: false,
+        to: 'sbp',
+        icon: require('@/assets/img/icons/pay/payments_sbp.svg')
       },
       {
-        to: '/payments',
-        icon: '@/assets/img/icons/payments_sbp.svg'
+        isInternational: true,
+        to: 'sbp',
+        icon: require('@/assets/img/icons/pay/payments_sbp.svg')
       },
       {
-        to: '/payments',
-        icon: '@/assets/img/icons/payments_sbp.svg'
+        isInternational: false,
+        to: 'yandex',
+        icon: require('@/assets/img/icons/pay/payments_yandex.svg')
+      },
+      {
+        isInternational: true,
+        to: 'wm',
+        icon: require('@/assets/img/icons/pay/payments_wmz.svg')
+      },
+      {
+        isInternational: true,
+        to: 'tether',
+        icon: require('@/assets/img/icons/pay/payments_usdt.svg')
+      },
+      {
+        isInternational: false,
+        to: 'pokupko',
+        icon: require('@/assets/img/icons/pay/payments_pokupko.svg')
       }
     ]
 
@@ -75,37 +120,30 @@ export default ({
 
     provide('parallaxX', X)
     provide('parallaxY', Y)
-
-    const fontSize = ref('16px')
-
-    return {
-      fontSize
-    };
   }
 })
 </script>
 
 <style lang="css">
 #app {
-  font-family: "Roboto Flex", sans-serif;
+  @apply font-roboto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
   a.router-link-exact-active {
   opacity: 1;
   user-select: none;
-  cursor: default;
 }
 .page-gradient::after{
   content: "";
-  @apply absolute bg-[linear-gradient(to_top,#00092E_0%,#00092E_54%,#00092E00_100%)] -bottom-[7.5rem] w-full aspect-[360/377] max-h-[377px] z-[1000] left-0
-}
-.page-gradient-bottom::after{
-  content: "";
-  @apply absolute bg-gradient-to-t from-BASE_BACKGROUND bottom-0 w-full aspect-[360/377] max-h-[23.5rem] z-[1000] left-0
+  @apply absolute bg-gradient-to-t from-BASE_BACKGROUND bottom-0 w-full z-[1000] left-0
 }
 .page-gradient::after,.page-gradient-bottom::after{
   @apply select-none pointer-events-none
@@ -114,9 +152,10 @@ export default ({
   @apply max-md:pt-24
 }
 .home{
-  @apply max-lg:pt-24 max-md:pt-0
+  @apply max-md:pt-0
 }
-.home.page-gradient::after{
-  @apply max-lg:max-h-[calc(291rem/16)] bg-[linear-gradient(to_top,#00092E_0%,#00092E_46%,#00092E00_100%)]
+.page-gradient::after{
+  content: "";
+  @apply absolute bg-[linear-gradient(to_top,#00092E_0%,#00092E00_100%)] -bottom-0 w-full h-[20.375rem] z-[1000] left-0
 }
 </style>

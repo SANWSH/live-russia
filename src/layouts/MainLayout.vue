@@ -1,12 +1,12 @@
 <template>
   <Header/>
-  <main>
-      <router-view v-slot="{ Component }">
-        <transition name="fadeLong" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
-    </main>
+  <main class="page-gradient">
+    <router-view v-slot="{ Component }">
+      <transition name="fadeLong" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
+  </main>
   <Footer/>
 </template>
 
@@ -22,4 +22,5 @@ export default {
 </script>
 
 <style>
+
 </style>

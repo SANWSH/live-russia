@@ -1,48 +1,24 @@
 <template>
-  <component :is="tagName" class="absolute w-full">
+  <component :is="tagName" class="absolute w-full" v-bind="bindAttribute">
     <picture>
       <source :srcset="require(`@/assets/img/optimize/${imgSourceName}.webp`)" type="image/webp"/>
-      <img :src="require(`@/assets/img/non-optimize/${imgSourceName}.${imgOriginalExt}`)" :alt="imgSourceName" class="size-full">
+      <img :src="require(`@/assets/img/non-optimize/${imgSourceName}.${imgOriginalExt}`)" :alt="imgSourceName" class="size-full" :style="`width:${iWidth};height:${iHeight}`">
     </picture>
     <slot></slot>
   </component>
 </template>
 
-<script>
-import { ref } from 'vue'
-
-export default {
-  props: {
-    tagName: 'a' || 'div',
-    imgSourceName: String,
-    imgOriginalExt: String
-  },
-  setup (props) {
-    const posValues = ref(props.elPosition)
-    const posNames = ['top', 'right', 'bottom', 'left']
-    const posStyles = ref(null)
-
-    if (!!posValues.value && posValues.value.length > 4) {
-      posValues.value = posValues.value.splice(0, 4)
-      console.warn(`There are many items in array of ${props.tagName} element with the content ${props.imgSourceName}.${props.imgOriginalExt}`)
-    }
-
-    posValues.value ? setPosStyles() : console.log('No position data')
-
-    async function setPosStyles () {
-      const array = await JSON.parse(JSON.stringify(posValues.value))
-      const values = []
-      array.forEach((value, index) => {
-        if (value !== '_') {
-          values.push(`${posNames[index]}-${value}`)
-        }
-      });
-      posStyles.value = values.join(' ')
-    }
-
-    return {
-      posStyles
-    }
-  }
-}
+<script setup>
+import { defineProps, computed, $attrs } from 'vue'
+const props = defineProps({
+  tagName: 'a' || 'div',
+  imgSourceName: String,
+  imgOriginalExt: String,
+  link: String,
+  iWidth: Number,
+  iHeight: Number
+})
+const bindAttribute = computed(() => {
+  return props.tagName === 'a' ? { href: props.link } : { ...$attrs }
+})
 </script>

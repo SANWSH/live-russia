@@ -1,9 +1,10 @@
 <template>
-  <header class="header flex border-CYAN border border-opacity-10 rounded-xl max-w-8xl mx-auto
-  bg-gradient-to-r from-HEADER_GRADIENT_COLOR_1 to-HEADER_GRADIENT_COLOR_2 p-[0.625rem] backdrop-blur-md">
+  <header
+  class="header flex backdrop-blur-md"
+  :style="y > 20 && !!maxLG || !maxLG ? 'top:0' : 'top:1.5rem'">
     <router-link class="logo" to="/">
-      <img class="logo__image my-auto" src="../../assets/img/LR_logo2.svg" alt="Logo" />
-      <span class="logo__title leading-5 italic-text">LIVE RUSSIA</span>
+      <img class="logo-image my-auto" src="../../assets/img/LR_logo2.svg" alt="Logo" style="width:2.4375rem; height: 2.625rem" />
+      <span class="logo-title leading-5 italic">LIVE RUSSIA</span>
     </router-link>
     <div v-if="!maxLG" class="ml-20 flex justify-between w-full items-center">
       <social/>
@@ -13,48 +14,46 @@
           v-for="(item, i) in items"
           :key="item[i]">
           <component :is="item.tag" v-bind="item.attrs"
-           class="nav__link italic-text">
+           class="nav-link italic">
            {{item.title}}
           </component>
           </li>
         </ul>
       </nav>
-      <router-link class="header-button "
-      to="/donate">
-      <span class="italic-text">
-        Пополнить счет
-      </span>
-    </router-link>
+      <button-accent
+      link="/donate"
+      title="Пополнить счет"
+      styleType="accent-outline p-thin"
+      />
     </div>
     <button v-else class="burger" @click="openModal"></button>
     <teleport to="body">
-      <Transition name="smooth">
-        <Modal v-if="modal">
-          <div class="relative h-16 w-100% p-3 mt-10 flex items-center" >
+        <Modal :isOpenValue="modal" :is-click-outside="true">
+          <div class="relative h-16 w-100% p-3 mt-5 flex items-center" >
             <router-link class="logo" to="/">
-              <img class="logo__image my-auto" src="../../assets/img/LR_logo2.svg" alt="Logo" />
-              <i class="logo__title leading-5">LIVE RUSSIA</i>
+              <img class="logo-image my-auto" src="../../assets/img/LR_logo2.svg" alt="Logo" />
+              <i class="logo-title leading-5">LIVE RUSSIA</i>
             </router-link>
             <button class="close" @click="openModal"></button>
           </div>
           <div class="nav flex flex-col gap-[1.875rem] h-[100%] relative items-center">
-            <div class="nav__menu relative flex flex-col text-lg my-auto font-medium items-center -top-16 gap-8">
+            <div class="nav-menu relative flex flex-col text-lg my-auto font-medium items-center -top-16 gap-8">
               <nav>
                 <ul class="flex flex-col gap-8 items-center">
                   <li
                   v-for="(item, i) in items"
                   :key="item[i]">
                   <component :is="item.tag" v-bind="item.attrs"
-                  class="nav__link italic-text">
+                  class="nav-link italic">
                   {{item.title}}
                   </component>
                   </li>
                   <li>
-                    <router-link
-                    class="nav__link italic-text"
-                    to="/donate"
-                    @click="openModal">
-                    Пополнить счет</router-link>
+                    <button-accent
+                    link="/donate"
+                    title="Пополнить счет"
+                    styleType="default"
+                    />
                   </li>
                 </ul>
               </nav>
@@ -66,7 +65,6 @@
             </div>
           </div>
         </Modal>
-      </Transition>
     </teleport>
   </header>
 </template>
@@ -75,14 +73,11 @@ import Social from '../Social.vue'
 import Modal from '../Modal.vue'
 import ButtonAccent from '../ButtonAccent.vue'
 
-import { ref } from 'vue'
-import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+import { inject, ref } from 'vue'
 export default {
   components: { Social, Modal, ButtonAccent },
   setup () {
-    const breakpoints = useBreakpoints(breakpointsTailwind)
-
-    const maxLG = breakpoints.smallerOrEqual('lg')
+    const maxLG = inject('scrLarge')
 
     const items = [
       {
@@ -97,7 +92,7 @@ export default {
       }
     ]
     const isMobile = ref(false)
-    const modal = ref(false)
+    const modal = inject('modalOpenHeader')
     const openModal = () => {
       modal.value ? modal.value = false : modal.value = true
     }
@@ -117,7 +112,10 @@ export default {
     justify-content: space-between;
   }
   .header{
-      @apply relative max-lg:fixed z-upper mt-0 max-lg:mt-10 w-full max-lg:w-[98%] max-lg:left-[1%]
+      @apply relative z-upper mt-0 w-full
+      border-CYAN border border-opacity-10 rounded-xl max-w-8xl mx-auto
+      bg-gradient-to-r from-HEADER_GRADIENT_COLOR_1 to-HEADER_GRADIENT_COLOR_2 p-[0.625rem]
+      max-lg:absolute max-lg:max-w-[96%] max-lg:self-center
   }
   .header-button{
     @apply bg-transparent px-4 p-[0.625rem] border border-opacity-20
@@ -128,13 +126,15 @@ export default {
   .header-link {
     @apply font-black uppercase opacity-70 hover:opacity-100 text-white transition-opacity
   }
-  .burger__menu {
+  .burger-menu {
     @apply absolute inset-0 flex flex-col h-full
   }
   .burger{
-    @apply absolute w-[30px] h-[15px] self-center right-5 active:opacity-60;
-    background: url('@/assets/img/buttons/burger.svg');
+    @apply absolute w-[1.875rem] h-4 self-center right-5 active:opacity-60;
+    background: url('@/assets/img/buttons/burger.svg') center no-repeat;
+    background-size: contain;
   }
+
 </style>
 <style>
 .close{
